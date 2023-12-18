@@ -20,9 +20,6 @@ Conrifm: `kubectl get apiservice v1beta1.metrics.k8s.io -o json | jq '.status'`
 
 ## cert-manager
 
-### CRDs installation (https://github.com/cert-manager/cert-manager/releases/tag/v1.12.3)
-`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.crds.yaml`
-
 ### Helm chart installation
 `helm repo add jetstack https://charts.jetstack.io`
 
@@ -48,8 +45,6 @@ Create secret for `imagePullSecrets` (namespaced object):
 
 `kubectl create secret docker-registry registry-creds --docker-server=https://index.docker.io/v1/ --docker-username=xxx --docker-password=YYY --docker-email=fff@koukos.gr -n dev`
 
-### Services setup
+## Jupyterhub
 
-Setup `deployment`, `service`, `ingress-route`, `certificate` manifests at the `apps` directory in the form shown for `qvantum-api` service.
-
-This setup will create a deployment and a correspodning service to it of type `ClusterIP` which then will be exposed through Traefik from the `ingress-route` manifest. By providing the created `certificate` as secret it will also have SSL termination.
+`helm upgrade jupyterhub jupyterhub/jupyterhub -n jupyterhub --cleanup-on-fail --install --version 3.2.1 --values apps/jupyterhub/helm-chart/values.yml --set hub.config.Auth0OAuthenticator.client_id=xxx --set hub.config.Auth0OAuthenticator.client_secret=yyy --set hub.config.Auth0OAuthenticator.oauth_callback_url=zzz --set hub.config.Auth0OAuthenticator.auth0_subdomain=ppp.eu --set hub.db.url="mysql+pymysql://<db-username>:<db-password>@<db-hostname>:<db-port>/<db-name>" --timeout 1200s`

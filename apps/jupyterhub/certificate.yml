@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: jupyterhub-datalabs-eiar-scio-services
+  namespace: jupyterhub
+spec:
+  secretName: jupyterhub-datalabs-eiar-scio-services-tls
+  issuerRef:
+    name: letsencrypt-http
+    kind: ClusterIssuer  
+  commonName: "jupyterhub.datalabs.eiar.scio.services"
+  dnsNames:
+  - "jupyterhub.datalabs.eiar.scio.services"

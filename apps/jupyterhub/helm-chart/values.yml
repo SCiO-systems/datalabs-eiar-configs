@@ -33,9 +33,22 @@ imagePullSecrets: []
 hub:
   revisionHistoryLimit:
   config:
+    Auth0OAuthenticator:
+      allow_all: true
+      client_id:
+      client_secret:
+      oauth_callback_url:
+      scope:
+        - openid
+        - email
+      auth0_subdomain:
+    Authenticator:
+      admin_users:
+        - devops@scio.systems
+      auto_login: true
+      enable_auth_state: true
     JupyterHub:
-      admin_access: true
-      authenticator_class: dummy
+      authenticator_class: auth0
   service:
     type: ClusterIP
     annotations: {}
@@ -60,16 +73,7 @@ hub:
     ##   deployment of JupyterHub on k8s is to be possible.
     type: Recreate
   db:
-    type: sqlite-pvc
-    upgrade:
-    pvc:
-      annotations: {}
-      selector: {}
-      accessModes:
-        - ReadWriteOnce
-      storage: 1Gi
-      subPath:
-      storageClassName:
+    type: mysql
     url:
     password:
   labels: {}
@@ -93,7 +97,7 @@ hub:
   containerSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000
-    allowPrivilegeEscalation: false
+    allowPrivilegeEscalation: true
   lifecycle: {}
   loadRoles: {}
   services: {}
@@ -182,7 +186,7 @@ proxy:
     rollingUpdate:
   # service relates to the proxy-public service
   service:
-    type: LoadBalancer
+    type: ClusterIP
     labels: {}
     annotations: {}
     nodePorts:
@@ -388,10 +392,10 @@ singleuser:
     static:
       pvcName:
       subPath: "{username}"
-    capacity: 10Gi
+    capacity: 80Gi
     homeMountPath: /home/jovyan
     dynamic:
-      storageClass:
+      storageClass: nfs-client
       pvcNameTemplate: claim-{username}{servername}
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
@@ -413,7 +417,42 @@ singleuser:
   cmd: jupyterhub-singleuser
   defaultUrl:
   extraPodConfig: {}
-  profileList: []
+  profileList:
+    - display_name: "Low"
+      description: "Datascience Environment with Sample Notebooks (Resources: 4 GB RAM - 2 CPU)"
+      kubespawner_override:
+        image: jupyter/datascience-notebook:ubuntu-22.04
+        cpu_guarantee: 2
+        cpu_limit:
+        mem_guarantee: 4G
+        mem_limit: 4G
+
+    - display_name: "Medium"
+      description: "Datascience Environment with Sample Notebooks (Resources: 8 GB RAM - 4 CPU)"
+      kubespawner_override:
+        image: jupyter/datascience-notebook:ubuntu-22.04
+        cpu_guarantee: 4
+        cpu_limit:
+        mem_guarantee: 8G
+        mem_limit: 8G
+    
+    - display_name: "High"
+      description: "Datascience Environment with Sample Notebooks (Resources: 32 GB RAM - 8 CPU)"
+      kubespawner_override:
+        image: jupyter/datascience-notebook:ubuntu-22.04
+        cpu_guarantee: 8
+        cpu_limit:
+        mem_guarantee: 32G
+        mem_limit: 32G
+
+    - display_name: "X-High"
+      description: "Datascience Environment with Sample Notebooks (Resources: 256 GB RAM - 32 CPU)"
+      kubespawner_override:
+        image: jupyter/datascience-notebook:ubuntu-22.04
+        cpu_guarantee: 32
+        cpu_limit:
+        mem_guarantee: 256G
+        mem_limit: 256G
 
 # scheduling relates to the user-scheduler pods and user-placeholder pods.
 scheduling:
