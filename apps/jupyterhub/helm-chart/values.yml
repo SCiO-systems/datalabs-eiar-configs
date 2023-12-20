@@ -456,6 +456,10 @@ singleuser:
                                       'key': 'profile',
                                       'operator': 'In',
                                       'values': ['medium']
+                                  },
+                                  {
+                                      'key': 'node_id',
+                                      'operator': 'Exists'
                                   }
                               ]
                           }
@@ -464,10 +468,6 @@ singleuser:
               }
           }
         }
-        # cpu_guarantee: 4
-        # cpu_limit:
-        # mem_guarantee: 8G
-        # mem_limit: 8G
     
     - display_name: "High"
       description: "Datascience Environment with Sample Notebooks (Resources: 32 GB RAM - 8 CPU)"

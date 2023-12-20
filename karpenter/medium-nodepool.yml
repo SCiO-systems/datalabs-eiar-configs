@@ -9,6 +9,8 @@ spec:
         - key: profile
           operator: In
           values: ["medium"]
+        - key: node_id
+          operator: Exists
         - key: kubernetes.io/arch
           operator: In
           values: ["amd64"]
