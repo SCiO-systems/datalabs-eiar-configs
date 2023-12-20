@@ -14,5 +14,5 @@ spec:
   blockDeviceMappings:
     - deviceName: /dev/xvda
       ebs:
-        volumeSize: 40Gi
+        volumeSize: 30Gi
         volumeType: gp2

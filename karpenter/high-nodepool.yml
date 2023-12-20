@@ -4,6 +4,9 @@ metadata:
   name: high-profile
 spec:
   template:
+    metadata:
+      labels:
+        profile: high
     spec:
       requirements:
         - key: kubernetes.io/arch

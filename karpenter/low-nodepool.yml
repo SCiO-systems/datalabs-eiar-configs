@@ -6,6 +6,8 @@ spec:
   template:
     spec:
       requirements:
+        - key: foo
+          operator: Exists
         - key: kubernetes.io/arch
           operator: In
           values: ["amd64"]

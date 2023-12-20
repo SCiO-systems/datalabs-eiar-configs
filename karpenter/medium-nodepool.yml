@@ -6,6 +6,9 @@ spec:
   template:
     spec:
       requirements:
+        - key: profile
+          operator: In
+          values: ["medium"]
         - key: kubernetes.io/arch
           operator: In
           values: ["amd64"]
@@ -20,9 +23,6 @@ spec:
           values: ["t3a.xlarge"]
       nodeClassRef:
         name: default
-  limits:
-    cpu: 4
-    memory: 8Gi
   disruption:
     consolidationPolicy: WhenUnderutilized
     expireAfter: 720h # 30 * 24h = 720h

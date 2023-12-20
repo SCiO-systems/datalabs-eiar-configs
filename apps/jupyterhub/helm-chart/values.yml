@@ -380,7 +380,7 @@ singleuser:
   lifecycleHooks: {}
   initContainers: []
   extraContainers: []
-  allowPrivilegeEscalation: false
+  allowPrivilegeEscalation: true
   uid: 1000
   fsGid: 100
   serviceAccountName:
@@ -422,19 +422,52 @@ singleuser:
       description: "Datascience Environment with Sample Notebooks (Resources: 4 GB RAM - 2 CPU)"
       kubespawner_override:
         image: jupyter/datascience-notebook:ubuntu-22.04
-        cpu_guarantee: 2
-        cpu_limit:
-        mem_guarantee: 4G
-        mem_limit: 4G
+        extra_pod_config: {
+          'affinity': {
+              'nodeAffinity': {
+                  'requiredDuringSchedulingIgnoredDuringExecution': {
+                      'nodeSelectorTerms': [
+                          {
+                              'matchExpressions': [
+                                  {
+                                      'key': 'foo',
+                                      'operator': 'Exists',
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              }
+          }
+        }
 
     - display_name: "Medium"
       description: "Datascience Environment with Sample Notebooks (Resources: 8 GB RAM - 4 CPU)"
       kubespawner_override:
         image: jupyter/datascience-notebook:ubuntu-22.04
-        cpu_guarantee: 4
-        cpu_limit:
-        mem_guarantee: 8G
-        mem_limit: 8G
+        extra_pod_config: {
+          'affinity': {
+              'nodeAffinity': {
+                  'requiredDuringSchedulingIgnoredDuringExecution': {
+                      'nodeSelectorTerms': [
+                          {
+                              'matchExpressions': [
+                                  {
+                                      'key': 'profile',
+                                      'operator': 'In',
+                                      'values': ['medium']
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              }
+          }
+        }
+        # cpu_guarantee: 4
+        # cpu_limit:
+        # mem_guarantee: 8G
+        # mem_limit: 8G
     
     - display_name: "High"
       description: "Datascience Environment with Sample Notebooks (Resources: 32 GB RAM - 8 CPU)"
