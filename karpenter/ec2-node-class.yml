@@ -16,3 +16,6 @@ spec:
       ebs:
         volumeSize: 30Gi
         volumeType: gp2
+  tags: # EC2 instance tags
+    Product: Datalabs
+    Customer: EIAR
