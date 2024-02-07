@@ -419,73 +419,94 @@ singleuser:
   extraPodConfig: {}
   profileList:
     - display_name: "Low"
-      description: "Datascience Environment with Sample Notebooks (Resources: 4 GB RAM - 2 CPU)"
+      description: "Datascience Environment with Sample Notebooks (Resources: 16 GB RAM - 4 CPU)"
       kubespawner_override:
         image: jupyter/datascience-notebook:ubuntu-22.04
-        extra_pod_config: {
-          'affinity': {
-              'nodeAffinity': {
-                  'requiredDuringSchedulingIgnoredDuringExecution': {
-                      'nodeSelectorTerms': [
-                          {
-                              'matchExpressions': [
+        extra_pod_config:
+          {
+            "affinity": # This schedules pods to run on the given instance types
+              {
+                "nodeAffinity":
+                  {
+                    "requiredDuringSchedulingIgnoredDuringExecution":
+                      {
+                        "nodeSelectorTerms":
+                          [
+                            {
+                              "matchExpressions":
+                                [
                                   {
-                                      'key': 'foo',
-                                      'operator': 'Exists',
-                                  }
-                              ]
-                          }
-                      ]
-                  }
-              }
-          }
-        }
-
-    - display_name: "Medium"
-      description: "Datascience Environment with Sample Notebooks (Resources: 8 GB RAM - 4 CPU)"
-      kubespawner_override:
-        image: jupyter/datascience-notebook:ubuntu-22.04
-        extra_pod_config: {
-          'affinity': {
-              'nodeAffinity': {
-                  'requiredDuringSchedulingIgnoredDuringExecution': {
-                      'nodeSelectorTerms': [
-                          {
-                              'matchExpressions': [
-                                  {
-                                      'key': 'profile',
-                                      'operator': 'In',
-                                      'values': ['medium']
+                                    "key": "node.kubernetes.io/instance-type",
+                                    "operator": "In",
+                                    "values": ["t3a.xlarge"],
                                   },
-                                  {
-                                      'key': 'node_id',
-                                      'operator': 'Exists'
-                                  }
-                              ]
-                          }
-                      ]
-                  }
-              }
+                                ],
+                            },
+                          ],
+                      },
+                  },
+              },
+            "topologySpreadConstraints": # This ensures that user pods are running on unique nodes.
+              [
+                {
+                  "maxSkew": 1,
+                  "topologyKey": "kubernetes.io/hostname",
+                  "whenUnsatisfiable": "DoNotSchedule",
+                  "labelSelector":
+                    {
+                      "matchLabels":
+                        {
+                          "component" : "singleuser-server"
+                        },
+                    },
+                },
+              ],
           }
-        }
-    
+
     - display_name: "High"
       description: "Datascience Environment with Sample Notebooks (Resources: 32 GB RAM - 8 CPU)"
       kubespawner_override:
         image: jupyter/datascience-notebook:ubuntu-22.04
-        cpu_guarantee: 8
-        cpu_limit:
-        mem_guarantee: 32G
-        mem_limit: 32G
-
-    - display_name: "X-High"
-      description: "Datascience Environment with Sample Notebooks (Resources: 256 GB RAM - 32 CPU)"
-      kubespawner_override:
-        image: jupyter/datascience-notebook:ubuntu-22.04
-        cpu_guarantee: 32
-        cpu_limit:
-        mem_guarantee: 256G
-        mem_limit: 256G
+        extra_pod_config:
+          {
+            "affinity": # This schedules pods to run on the given instance types
+              {
+                "nodeAffinity":
+                  {
+                    "requiredDuringSchedulingIgnoredDuringExecution":
+                      {
+                        "nodeSelectorTerms":
+                          [
+                            {
+                              "matchExpressions":
+                                [
+                                  {
+                                    "key": "node.kubernetes.io/instance-type",
+                                    "operator": "In",
+                                    "values": ["t3a.2xlarge"],
+                                  },
+                                ],
+                            },
+                          ],
+                      },
+                  },
+              },
+            "topologySpreadConstraints": # This ensures that user pods are running on unique nodes.
+              [
+                {
+                  "maxSkew": 1,
+                  "topologyKey": "kubernetes.io/hostname",
+                  "whenUnsatisfiable": "DoNotSchedule",
+                  "labelSelector":
+                    {
+                      "matchLabels":
+                        {
+                          "component" : "singleuser-server"
+                        },
+                    },
+                },
+              ],
+          }
 
 # scheduling relates to the user-scheduler pods and user-placeholder pods.
 scheduling:
@@ -744,4 +765,3 @@ debug:
 
 global:
   safeToShowValues: false
-
