@@ -421,7 +421,7 @@ singleuser:
     - display_name: "Low"
       description: "Datascience Environment with Sample Notebooks (Resources: 16 GB RAM - 4 CPU)"
       kubespawner_override:
-        image: jupyter/datascience-notebook:ubuntu-22.04
+        image: sciohub/jupyter-eiar-notebook:1.0.0
         extra_pod_config:
           {
             "affinity": # This schedules pods to run on the given instance types
@@ -446,7 +446,7 @@ singleuser:
                       },
                   },
               },
-            "topologySpreadConstraints": # This ensures that user pods are running on unique nodes.
+            "topologySpreadConstraints": # This guarantees that exactly one user pod is being scheduled on each node.
               [
                 {
                   "maxSkew": 1,
@@ -466,7 +466,7 @@ singleuser:
     - display_name: "High"
       description: "Datascience Environment with Sample Notebooks (Resources: 32 GB RAM - 8 CPU)"
       kubespawner_override:
-        image: jupyter/datascience-notebook:ubuntu-22.04
+        image: sciohub/jupyter-eiar-notebook:1.0.0
         extra_pod_config:
           {
             "affinity": # This schedules pods to run on the given instance types
