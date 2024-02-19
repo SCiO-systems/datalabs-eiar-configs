@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nfs-mount-job
+  namespace: datalabs
+spec:
+  template:
+    spec:
+      containers:
+      - name: nfs-mount-job
+        image: busybox:1.36 # Use an image that has the necessary tools like mkdir
+        command: ["mkdir", "-p", "/mnt/volumes/shared-data", " && ", "chown","-R", "jovyan:users", "/mnt/volumes/shared-data"]  # Command to create directory in EFS
+        volumeMounts:
+        - name: pv-nfs-mount
+          mountPath: /mnt  # Mount path in the container
+      restartPolicy: Never  # Ensure that the job doesn't restart
+      volumes:
+      - name: pv-nfs-mount
+        nfs:
+          server: fs-069d2f0d5a2ecb5de.efs.eu-central-1.amazonaws.com  # NFS server IP address
+          path: / # NFS path defined in the external NFS provisioner
+  backoffLimit: 4  # Number of retries before considering the job as failed
+  ttlSecondsAfterFinished: 30

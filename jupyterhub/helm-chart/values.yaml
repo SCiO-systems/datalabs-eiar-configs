@@ -387,8 +387,13 @@ singleuser:
   storage:
     type: dynamic
     extraLabels: {}
-    extraVolumes: []
-    extraVolumeMounts: []
+    extraVolumes:
+      - name: pv-shared-data
+        persistentVolumeClaim:
+          claimName: pvc-shared-data
+    extraVolumeMounts:
+      - name: pv-shared-data
+        mountPath: /home/jovyan/shared-data
     static:
       pvcName:
       subPath: "{username}"
@@ -421,7 +426,7 @@ singleuser:
     - display_name: "Low"
       description: "Datascience Environment with Sample Notebooks (Resources: 16 GB RAM - 4 CPU)"
       kubespawner_override:
-        image: sciohub/jupyter-eiar-notebook:1.0.0
+        image: sciohub/jupyter-eiar-notebook:dev-1.0.1
         extra_pod_config:
           {
             "affinity": # This schedules pods to run on the given instance types
@@ -466,7 +471,7 @@ singleuser:
     - display_name: "High"
       description: "Datascience Environment with Sample Notebooks (Resources: 32 GB RAM - 8 CPU)"
       kubespawner_override:
-        image: sciohub/jupyter-eiar-notebook:1.0.0
+        image: sciohub/jupyter-eiar-notebook:dev-1.0.1
         extra_pod_config:
           {
             "affinity": # This schedules pods to run on the given instance types
