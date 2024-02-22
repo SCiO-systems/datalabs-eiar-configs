@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: singleuser-deployment
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      component: singleuser-server
+  template:
+    metadata:
+      labels:
+        component: singleuser-server
+    spec:
+      containers:
+      - name: singleuser-container
+        image: nginx
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: "kubernetes.io/hostname"
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            component: singleuser-server

@@ -1,14 +1,13 @@
 apiVersion: karpenter.sh/v1beta1
 kind: NodePool
 metadata:
-  name: high-profile
+  name: low-profile
 spec:
   template:
-    metadata:
-      labels:
-        profile: high
     spec:
       requirements:
+        - key: foo
+          operator: Exists
         - key: kubernetes.io/arch
           operator: In
           values: ["amd64"]
@@ -20,12 +19,9 @@ spec:
           values: ["on-demand"]
         - key: node.kubernetes.io/instance-type
           operator: In
-          values: ["t3a.2xlarge"]
+          values: ["t3a.xlarge"]
       nodeClassRef:
         name: default
-  limits:
-    cpu: 8
-    memory: 32Gi
   disruption:
     consolidationPolicy: WhenUnderutilized
     expireAfter: 720h # 30 * 24h = 720h
