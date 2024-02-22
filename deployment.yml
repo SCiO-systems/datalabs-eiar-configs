@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: singleuser-deployment
 spec:
-  replicas: 10
+  replicas: 11
   selector:
     matchLabels:
       component: singleuser-server
@@ -22,3 +22,11 @@ spec:
         labelSelector:
           matchLabels:
             component: singleuser-server
+      # - maxSkew: 1
+      #   topologyKey: "karpenter.sh/capacity-type"
+      #   whenUnsatisfiable: ScheduleAnyway
+      #   labelSelector:
+      #     matchLabels:
+      #       component: singleuser-server
+      # nodeSelector:
+      #   node.kubernetes.io/instance-type: t3a.xlarge

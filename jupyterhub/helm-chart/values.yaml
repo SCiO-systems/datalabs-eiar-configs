@@ -118,7 +118,7 @@ hub:
       privateIPs: true
     interNamespaceAccessLabels: ignore
     allowedIngressPorts: []
-  allowNamedServers: true
+  allowNamedServers: false
   namedServerLimitPerUser:
   authenticatePrometheus:
   redirectToServer:
