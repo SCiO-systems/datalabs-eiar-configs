@@ -427,73 +427,105 @@ singleuser:
       description: "Datascience Environment with Sample Notebooks (Resources: 16 GB RAM - 4 CPU)"
       kubespawner_override:
         image: sciohub/jupyter-eiar-notebook:dev-1.0.1
-        extra_pod_config: { ? "affinity" # This schedules pods to run on the given instance types
-            : {
-                "nodeAffinity":
+        extra_pod_config: {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
                   {
-                    "requiredDuringSchedulingIgnoredDuringExecution":
+                    "matchExpressions": [
                       {
-                        "nodeSelectorTerms":
-                          [
-                            {
-                              "matchExpressions":
-                                [
-                                  {
-                                    "key": "node.kubernetes.io/instance-type",
-                                    "operator": "In",
-                                    "values": ["t3a.xlarge"],
-                                  },
-                                ],
-                            },
-                          ],
-                      },
-                  },
-              }, ? "topologySpreadConstraints" # This guarantees that exactly one user pod is being scheduled on each node.
-            : [
+                        "key": "node.kubernetes.io/instance-type",
+                        "operator": "In",
+                        "values": ["t3a.xlarge"]
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "podAntiAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": [
                 {
-                  "maxSkew": 1,
-                  "topologyKey": "kubernetes.io/hostname",
-                  "whenUnsatisfiable": "DoNotSchedule",
-                  "labelSelector":
-                    { "matchLabels": { "component": "singleuser-server" } },
-                },
-              ] }
+                  "labelSelector": {
+                    "matchExpressions": [
+                      {
+                        "key": "component",
+                        "operator": "In",
+                        "values": ["singleuser-server"]
+                      }
+                    ]
+                  },
+                  "topologyKey": "kubernetes.io/hostname"
+                }
+              ]
+            }
+          },
+          "topologySpreadConstraints": [
+            {
+              "maxSkew": 1,
+              "topologyKey": "kubernetes.io/hostname",
+              "whenUnsatisfiable": "DoNotSchedule",
+              "labelSelector": {
+                "matchLabels": {
+                  "component": "singleuser-server"
+                }
+              }
+            }
+          ]
+        }
 
     - display_name: "High"
       description: "Datascience Environment with Sample Notebooks (Resources: 32 GB RAM - 8 CPU)"
       kubespawner_override:
         image: sciohub/jupyter-eiar-notebook:dev-1.0.1
-        extra_pod_config: { ? "affinity" # This schedules pods to run on the given instance types
-            : {
-                "nodeAffinity":
+        extra_pod_config: {
+          "affinity": {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
                   {
-                    "requiredDuringSchedulingIgnoredDuringExecution":
+                    "matchExpressions": [
                       {
-                        "nodeSelectorTerms":
-                          [
-                            {
-                              "matchExpressions":
-                                [
-                                  {
-                                    "key": "node.kubernetes.io/instance-type",
-                                    "operator": "In",
-                                    "values": ["t3a.2xlarge"],
-                                  }
-                                ],
-                            },
-                          ],
-                      },
-                  },
-              }, ? "topologySpreadConstraints" # This ensures that user pods are running on unique nodes.
-            : [
+                        "key": "node.kubernetes.io/instance-type",
+                        "operator": "In",
+                        "values": ["t3a.2xlarge"]
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "podAntiAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": [
                 {
-                  "maxSkew": 1,
-                  "topologyKey": "kubernetes.io/hostname",
-                  "whenUnsatisfiable": "DoNotSchedule",
-                  "labelSelector":
-                    { "matchLabels": { "component": "singleuser-server" } },
-                },
-              ] }
+                  "labelSelector": {
+                    "matchExpressions": [
+                      {
+                        "key": "component",
+                        "operator": "In",
+                        "values": ["singleuser-server"]
+                      }
+                    ]
+                  },
+                  "topologyKey": "kubernetes.io/hostname"
+                }
+              ]
+            }
+          },
+          "topologySpreadConstraints": [
+            {
+              "maxSkew": 1,
+              "topologyKey": "kubernetes.io/hostname",
+              "whenUnsatisfiable": "DoNotSchedule",
+              "labelSelector": {
+                "matchLabels": {
+                  "component": "singleuser-server"
+                }
+              }
+            }
+          ]
+        }
 
 # scheduling relates to the user-scheduler pods and user-placeholder pods.
 scheduling:
