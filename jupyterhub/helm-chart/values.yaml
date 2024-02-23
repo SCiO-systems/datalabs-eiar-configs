@@ -460,19 +460,7 @@ singleuser:
                 }
               ]
             }
-          },
-          "topologySpreadConstraints": [
-            {
-              "maxSkew": 1,
-              "topologyKey": "kubernetes.io/hostname",
-              "whenUnsatisfiable": "DoNotSchedule",
-              "labelSelector": {
-                "matchLabels": {
-                  "component": "singleuser-server"
-                }
-              }
-            }
-          ]
+          }
         }
 
     - display_name: "High"
@@ -512,19 +500,7 @@ singleuser:
                 }
               ]
             }
-          },
-          "topologySpreadConstraints": [
-            {
-              "maxSkew": 1,
-              "topologyKey": "kubernetes.io/hostname",
-              "whenUnsatisfiable": "DoNotSchedule",
-              "labelSelector": {
-                "matchLabels": {
-                  "component": "singleuser-server"
-                }
-              }
-            }
-          ]
+          }
         }
 
 # scheduling relates to the user-scheduler pods and user-placeholder pods.
