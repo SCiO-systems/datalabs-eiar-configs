@@ -19,3 +19,4 @@ spec:
   tags: # EC2 instance tags
     Product: Datalabs
     Customer: EIAR
+    ServerID:	d-server-02d1uqqpjnjums
