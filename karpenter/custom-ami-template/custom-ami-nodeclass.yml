@@ -5,7 +5,7 @@ metadata:
 spec:
   amiFamily: AL2 # Amazon Linux 2
   amiSelectorTerms:
-    - id: ami-0a1482158c5340c2d
+    - id: ami-08359f93f7e8c9688
   role: "KarpenterNodeRole-datalabs-EIAR" # replace with your cluster name
   subnetSelectorTerms:
     - tags:
@@ -21,4 +21,4 @@ spec:
   tags: # EC2 instance tags
     Product: Datalabs
     Customer: EIAR
-    ServerID:	d-server-02d1uqqpjnjums
+    ServerID: d-server-02d1uqqpjnjums
