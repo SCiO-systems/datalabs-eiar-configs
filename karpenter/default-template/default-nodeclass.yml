@@ -18,5 +18,6 @@ spec:
         volumeType: gp2
   tags: # EC2 instance tags
     Product: Datalabs
+    Project: Datalabs
     Customer: EIAR
     ServerID:	d-server-02d1uqqpjnjums
