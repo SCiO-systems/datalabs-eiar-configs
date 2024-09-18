@@ -426,7 +426,7 @@ singleuser:
     - display_name: "Low"
       description: "Datascience Environment with Sample Notebooks (Resources: 16 GB RAM - 4 CPU)"
       kubespawner_override:
-        image: sciohub/jupyter-eiar-notebook:dev-1.0.2-2d5132a
+        image: sciohub/jupyter-eiar-notebook:1.0.2
         extra_pod_config:
           {
             "affinity":
@@ -476,7 +476,7 @@ singleuser:
     - display_name: "Medium"
       description: "Datascience Environment with Sample Notebooks (Resources: 32 GB RAM - 8 CPU)"
       kubespawner_override:
-        image: sciohub/jupyter-eiar-notebook:dev-1.0.2-2d5132a
+        image: sciohub/jupyter-eiar-notebook:1.0.2
         extra_pod_config:
           {
             "affinity":
@@ -526,7 +526,7 @@ singleuser:
     - display_name: "High"
       description: "Datascience Environment with Sample Notebooks (Resources: 64 GB RAM - 16 CPU)"
       kubespawner_override:
-        image: sciohub/jupyter-eiar-notebook:dev-1.0.2-2d5132a
+        image: sciohub/jupyter-eiar-notebook:1.0.2
         extra_pod_config:
           {
             "affinity":
