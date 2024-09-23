@@ -427,6 +427,8 @@ singleuser:
       description: "Datascience Environment with Sample Notebooks (Resources: 16 GB RAM - 4 CPU)"
       kubespawner_override:
         image: sciohub/jupyter-eiar-notebook:1.0.2
+        cpu_limit: 3.77
+        mem_limit: 16G
         extra_pod_config:
           {
             "affinity":
@@ -477,6 +479,8 @@ singleuser:
       description: "Datascience Environment with Sample Notebooks (Resources: 32 GB RAM - 8 CPU)"
       kubespawner_override:
         image: sciohub/jupyter-eiar-notebook:1.0.2
+        cpu_limit: 7.76
+        mem_limit: 32G
         extra_pod_config:
           {
             "affinity":
@@ -527,6 +531,8 @@ singleuser:
       description: "Datascience Environment with Sample Notebooks (Resources: 64 GB RAM - 16 CPU)"
       kubespawner_override:
         image: sciohub/jupyter-eiar-notebook:1.0.2
+        cpu_limit: 15.74
+        mem_limit: 64G
         extra_pod_config:
           {
             "affinity":
